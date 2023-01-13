@@ -8,11 +8,11 @@ class Result extends Equatable {
   final bool isDone;
 
   Result({
-    this.downloadSpeedUnit,
-    this.downloadSpeedValue,
-    this.isDone,
-    this.uploadSpeedUnit,
-    this.uploadSpeedValue,
+    required this.downloadSpeedUnit,
+    required this.downloadSpeedValue,
+    required this.isDone,
+    required this.uploadSpeedUnit,
+    required this.uploadSpeedValue,
   });
 
   factory Result.fromJson(Map<dynamic, dynamic> json) {
@@ -21,8 +21,7 @@ class Result extends Equatable {
       downloadSpeedValue: double.tryParse(json["downloadSpeedValue"]) ?? 0.0,
       isDone: json["isDone"] ?? false,
       uploadSpeedUnit: json["uploadSpeedUnit"] ?? "",
-      uploadSpeedValue:
-          double.tryParse(json["uploadSpeedValue"]).toDouble() ?? 0.0,
+      uploadSpeedValue: double.tryParse(json["uploadSpeedValue"]) ?? 0.0,
     );
   }
 

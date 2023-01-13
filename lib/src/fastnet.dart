@@ -13,9 +13,9 @@ class FastNet {
   }
 
   static Future<void> init({
-    Page page,
-    Browser browser,
-    StreamController streamController,
+    required Page page,
+    required Browser browser,
+    required StreamController streamController,
   }) async {
     while (true) {
       var content = await page.evaluate('''x=>{
