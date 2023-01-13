@@ -1,9 +1,9 @@
 name: fastnet
 description: A Dart package that allows you to test your network download and upload speed using fast.com.
-version: 1.0.2
+version: 1.0.2+1
 repository: https://github.com/DAMMAK/FastNet
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
   flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
