@@ -1,6 +1,7 @@
 library fastnet;
 
 import 'dart:async';
+
 import 'package:fastnet/src/model/result.dart';
 import 'package:puppeteer/puppeteer.dart';
 
@@ -11,12 +12,11 @@ class FastNet {
     Future.delayed(Duration(milliseconds: duration));
   }
 
-  static init({
+  static Future<void> init({
     Page page,
     Browser browser,
     StreamController streamController,
   }) async {
-    Result prevResult;
     while (true) {
       var content = await page.evaluate('''x=>{
     const downloadSpeedValue= document.querySelector("#speed-value").textContent;
@@ -28,29 +28,32 @@ class FastNet {
 				);
     return{downloadSpeedValue, downloadSpeedUnit, uploadSpeedValue, uploadSpeedUnit, isDone};
   }''', args: []);
-      var result = Result.fromJson(content);
+      final result = Result.fromJson(content);
 
-      if (result.downloadSpeedValue > 0 && result != prevResult) {
+      if (result.downloadSpeedValue > 0 && !result.isDone) {
         streamController.sink.add(result);
       }
 
       if (result.isDone) {
         await browser.close();
-        streamController.close();
+        streamController.sink.add(result);
+        await streamController.close();
         return;
       }
-      prevResult = result;
-      _delay(100);
     }
   }
 
-  getSpeed() async {
-    StreamController<Result> _streamController = StreamController();
-    Browser browser = await puppeteer.launch(timeout: Duration(minutes: 10));
-    Page page = await browser.newPage();
+  FutureOr<Stream<Result>> getSpeed() async {
+    final _streamController = StreamController<Result>();
+    final browser = await puppeteer.launch(timeout: Duration(minutes: 10));
+    final page = await browser.newPage();
     await page.goto('https://fast.com/#');
-    init(page: page, browser: browser, streamController: _streamController);
-    _streamController.close();
+    init(
+      page: page,
+      browser: browser,
+      streamController: _streamController,
+    );
+
     return _streamController.stream;
   }
 }

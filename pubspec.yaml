@@ -4,13 +4,13 @@ version: 1.0.2
 repository: https://github.com/DAMMAK/FastNet
 environment:
   sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  puppeteer: ^2.3.0
-  equatable: ^2.0.3
+  puppeteer: ^2.21.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
